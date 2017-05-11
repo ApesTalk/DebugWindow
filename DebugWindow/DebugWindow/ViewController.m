@@ -19,10 +19,6 @@
     btn.frame = CGRectMake(100, 100, 150, 40);
     [btn addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
-    
-    NSLog(@"测试程序中已有的NSLog输出日志！！！");
-    NSLog(@"测试程序中已有的NSLog输出日志！！！");
-    NSLog(@"测试程序中已有的NSLog输出日志！！！");
 }
 
 - (void)didReceiveMemoryWarning {

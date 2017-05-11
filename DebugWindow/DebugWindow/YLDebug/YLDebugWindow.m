@@ -67,7 +67,6 @@ static CGFloat const kInActiveAlpha = 0.5;
 
 - (void)tapAction
 {
-    YLLog(@"点击Log按钮，打开预览");
     self.hidden = YES;
     YLLogListController *logListController = [[YLLogListController alloc]init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:logListController];
@@ -82,7 +81,6 @@ static CGFloat const kInActiveAlpha = 0.5;
 
 - (void)panAction:(UIPanGestureRecognizer *)panGesture
 {
-    YLLog(@"拖动事件");
     CGPoint point = [panGesture locationInView:[[UIApplication sharedApplication] keyWindow]];
     if(panGesture.state == UIGestureRecognizerStateBegan){
         self.alpha = kActiveAlpha;
@@ -102,7 +100,6 @@ static CGFloat const kInActiveAlpha = 0.5;
             self.center = CGPointMake(centerX, centerY);
         }completion:^(BOOL finished) {
             self.alpha = kInActiveAlpha;
-            YLLog(@"停止拖动后位置确定");
         }];
     }
 }

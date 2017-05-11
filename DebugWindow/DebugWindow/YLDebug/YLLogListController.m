@@ -11,6 +11,7 @@
 #import "YLSandboxObject.h"
 #import "YLDebugWindow.h"
 #import <QuickLook/QuickLook.h>
+#import "YLLogWebViewController.h"
 #import "YLSandboxPreViewController.h"
 
 static NSString *cellIdentifier = @"cell";
@@ -36,12 +37,13 @@ static NSString *cellIdentifier = @"cell";
 
 @end
 
-@interface YLLogListController ()<QLPreviewControllerDataSource,QLPreviewControllerDelegate>
+@interface YLLogListController ()<QLPreviewControllerDataSource,QLPreviewControllerDelegate,UIAlertViewDelegate>
 {
     NSMutableArray *logList;
-    NSArray *sandboxValues;
+    NSMutableArray *sandboxValues;
 }
 @property(nonatomic,strong)UIDocumentInteractionController *docController;
+@property(nonatomic,strong)UIButton *footer;
 
 @end
 
@@ -54,8 +56,23 @@ static NSString *cellIdentifier = @"cell";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"删除全部" style:UIBarButtonItemStylePlain target:self action:@selector(clean)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    self.tableView.tableFooterView = self.footer;
     logList = [NSMutableArray arrayWithArray:[YLLogTool allLogFileNames]];
-    sandboxValues = [YLSandboxObject fetchValues];
+    sandboxValues = [NSMutableArray arrayWithArray:[YLSandboxObject fetchValues]];
+}
+
+- (UIButton *)footer
+{
+    if(!_footer){
+        _footer = [UIButton buttonWithType:UIButtonTypeCustom];
+        _footer.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        _footer.frame = CGRectMake(0, 0, 0, 45);
+        _footer.titleLabel.font = [UIFont systemFontOfSize:20];
+        [_footer setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_footer setTitle:@"添加键值对" forState:UIControlStateNormal];
+        [_footer addTarget:self action:@selector(addKeyValue) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _footer;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,41 +110,30 @@ static NSString *cellIdentifier = @"cell";
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.section == 0;
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [YLLogTool deleteLogFile:logList[indexPath.row]];
-        [logList removeObjectAtIndex:indexPath.row];
+        if(indexPath.section == 0){
+            [YLLogTool deleteLogFile:logList[indexPath.row]];
+            [logList removeObjectAtIndex:indexPath.row];
+        }else{
+            YLSandboxObject *obj = sandboxValues[indexPath.row];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults removeObjectForKey:obj.key];
+            [userDefaults synchronize];
+            [sandboxValues removeObjectAtIndex:indexPath.row];
+        }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark---UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 30;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 45;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -139,11 +145,13 @@ static NSString *cellIdentifier = @"cell";
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 0){
-        QLPreviewController *preController = [[QLPreviewController alloc]init];
-        preController.dataSource = self;
-        preController.delegate = self;
-        preController.currentPreviewItemIndex = indexPath.row;
-        [self.navigationController pushViewController:preController animated:YES];
+        YLLogWebViewController *webController = [[YLLogWebViewController alloc]initWithFile:logList[indexPath.row]];
+        [self.navigationController pushViewController:webController animated:YES];
+//        QLPreviewController *preController = [[QLPreviewController alloc]init];
+//        preController.dataSource = self;
+//        preController.delegate = self;
+//        preController.currentPreviewItemIndex = indexPath.row;
+//        [self.navigationController pushViewController:preController animated:YES];
     }else{
         YLSandboxPreViewController *preController = [[YLSandboxPreViewController alloc]initWithSandboxObject:sandboxValues[indexPath.row]];
         [self.navigationController pushViewController:preController animated:YES];
@@ -165,6 +173,35 @@ static NSString *cellIdentifier = @"cell";
 
 #pragma mark---QLPreviewControllerDelegate
 
+
+
+#pragma mark---UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != alertView.cancelButtonIndex){
+        NSString *key = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        NSString *value = [[[alertView textFieldAtIndex:1] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if(key.length > 0 && value.length > 0){
+            NSObject *obj;
+            NSString *tmpStr = [value stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
+            if(tmpStr.length == 0) {
+                //都是数字
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+                obj = [formatter numberFromString:value];
+            } else {
+                //不是数字
+                obj = value;
+            }
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:obj forKey:key];
+            [userDefaults synchronize];
+            
+            sandboxValues = [NSMutableArray arrayWithArray:[YLSandboxObject fetchValues]];
+            [self.tableView reloadData];
+        }
+    }
+}
+
 #pragma mark---other methods
 - (void)dismiss
 {
@@ -177,6 +214,16 @@ static NSString *cellIdentifier = @"cell";
     [YLLogTool deleteAllLogFiles];
     [logList removeAllObjects];
     [self.tableView reloadData];
+}
+
+- (void)addKeyValue
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请填写键值对信息" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    [[alert textFieldAtIndex:0] setPlaceholder:@"key"];
+    [[alert textFieldAtIndex:1] setPlaceholder:@"value"];
+    [[alert textFieldAtIndex:1] setSecureTextEntry:NO];
+    [alert show];
 }
 
 @end

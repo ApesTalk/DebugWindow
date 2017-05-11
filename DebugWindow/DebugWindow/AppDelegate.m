@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "YLDebugWindow.h"
 #import "YLLogTool.h"
+#import "YLTestObject.h"
+
 
 @interface AppDelegate ()
 {
@@ -24,7 +26,9 @@
     [YLDebugWindow startDebug];
     
     YLLog(@"哈哈哈哈哈哈哈哈😄%d",1);
-    
+    for(NSInteger i = 0; i < 50; i++){
+        YLLog(@"test log %li%li00",i,i);
+    }
     
     //测试沙盒的值
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -32,9 +36,17 @@
     [userDefaults setObject:@(8888) forKey:@"kYLIntegerKey"];
     [userDefaults setObject:@(88.88) forKey:@"kYLFloatKey"];
     [userDefaults setObject:@(8.888088) forKey:@"kYLDoubleKey"];
-    [userDefaults setObject:@[@"测试",@"数组",@1,@2,@3] forKey:@"kYLArrayKey"];
+    [userDefaults setObject:@"test string" forKey:@"kYLStringKey"];
+    [userDefaults setObject:@[@"测试",@1,@2,@"https://github.com/lqcjdx",@"我是Mr Lu"] forKey:@"kYLArrayKey"];
     [userDefaults setObject:@{@"key1":@"value1",@"key2":@200,@"key3":@[@1,@2,@3]} forKey:@"kYLDictionaryKey"];
+    YLTestObject *obj = [[YLTestObject alloc] initWithKey:@"testKey" value:@"testValue"];
+    [userDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:obj] forKey:@"kYLCustomObjectKey"];
     [userDefaults synchronize];
+
+    //反序列化
+//    NSData *data = [userDefaults objectForKey:@"kYLCustomObjectKey"];
+//    NSObject *custom = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
     
     /*在这里检查launcchOptions中以下key来监测其他APP分享过来的文件
      UIApplicationLaunchOptionsURLKey  该文件的NSURL

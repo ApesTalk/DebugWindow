@@ -141,7 +141,7 @@ void UncaughtExceptionHandler(NSException* exception)
         [fileHandle seekToEndOfFile];
         //在文件指针的当前位置写入，写入完成后文件指针的当前位置自动更新
         //采用UTF8编码会导致在浏览器中正常，在真机上显示乱码
-        [fileHandle writeData:[content dataUsingEncoding:NSUTF16StringEncoding]];
+        [fileHandle writeData:[content dataUsingEncoding:NSUTF8StringEncoding]];
         [fileHandle closeFile];//关闭文件
     });
 }

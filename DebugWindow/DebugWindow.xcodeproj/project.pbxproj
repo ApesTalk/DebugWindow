@@ -21,6 +21,11 @@
 		45C9AC271EB1CE83009638F3 /* YLSandboxObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9AC231EB1CE83009638F3 /* YLSandboxObject.m */; };
 		45C9AC2A1EB1CF66009638F3 /* YLSandboxPreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9AC291EB1CF66009638F3 /* YLSandboxPreViewController.m */; };
 		45C9AC2C1EB1F316009638F3 /* log.gif in Resources */ = {isa = PBXBuildFile; fileRef = 45C9AC2B1EB1F316009638F3 /* log.gif */; };
+		45E0C3F61EC17187003DE11D /* YLLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E0C3F51EC17187003DE11D /* YLLogWebViewController.m */; };
+		45E0C3F91EC174BB003DE11D /* UIWebView+SearchWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E0C3F81EC174BB003DE11D /* UIWebView+SearchWebView.m */; };
+		45E0C3FB1EC1754C003DE11D /* SearchWebView.js in Resources */ = {isa = PBXBuildFile; fileRef = 45E0C3FA1EC1754C003DE11D /* SearchWebView.js */; };
+		45F9C4071EC3026B00F96D28 /* YLSandboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9C4061EC3026B00F96D28 /* YLSandboxCell.m */; };
+		45F9C40A1EC31B8800F96D28 /* YLTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F9C4091EC31B8800F96D28 /* YLTestObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +73,15 @@
 		45C9AC281EB1CF66009638F3 /* YLSandboxPreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLSandboxPreViewController.h; sourceTree = "<group>"; };
 		45C9AC291EB1CF66009638F3 /* YLSandboxPreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLSandboxPreViewController.m; sourceTree = "<group>"; };
 		45C9AC2B1EB1F316009638F3 /* log.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = log.gif; sourceTree = "<group>"; };
+		45E0C3F41EC17187003DE11D /* YLLogWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLogWebViewController.h; sourceTree = "<group>"; };
+		45E0C3F51EC17187003DE11D /* YLLogWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLogWebViewController.m; sourceTree = "<group>"; };
+		45E0C3F71EC174BB003DE11D /* UIWebView+SearchWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+SearchWebView.h"; sourceTree = "<group>"; };
+		45E0C3F81EC174BB003DE11D /* UIWebView+SearchWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+SearchWebView.m"; sourceTree = "<group>"; };
+		45E0C3FA1EC1754C003DE11D /* SearchWebView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SearchWebView.js; sourceTree = "<group>"; };
+		45F9C4051EC3026B00F96D28 /* YLSandboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLSandboxCell.h; sourceTree = "<group>"; };
+		45F9C4061EC3026B00F96D28 /* YLSandboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLSandboxCell.m; sourceTree = "<group>"; };
+		45F9C4081EC31B8800F96D28 /* YLTestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTestObject.h; sourceTree = "<group>"; };
+		45F9C4091EC31B8800F96D28 /* YLTestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLTestObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +142,8 @@
 				457B0BF91EA8AE4000C92336 /* LaunchScreen.storyboard */,
 				457B0BFC1EA8AE4000C92336 /* Info.plist */,
 				457B0BEB1EA8AE3B00C92336 /* Supporting Files */,
+				45F9C4081EC31B8800F96D28 /* YLTestObject.h */,
+				45F9C4091EC31B8800F96D28 /* YLTestObject.m */,
 			);
 			path = DebugWindow;
 			sourceTree = "<group>";
@@ -166,12 +182,19 @@
 				45C9AC1D1EB1CE83009638F3 /* YLDebugWindow.m */,
 				45C9AC201EB1CE83009638F3 /* YLLogTool.h */,
 				45C9AC211EB1CE83009638F3 /* YLLogTool.m */,
-				45C9AC1E1EB1CE83009638F3 /* YLLogListController.h */,
-				45C9AC1F1EB1CE83009638F3 /* YLLogListController.m */,
 				45C9AC221EB1CE83009638F3 /* YLSandboxObject.h */,
 				45C9AC231EB1CE83009638F3 /* YLSandboxObject.m */,
+				45C9AC1E1EB1CE83009638F3 /* YLLogListController.h */,
+				45C9AC1F1EB1CE83009638F3 /* YLLogListController.m */,
+				45F9C4051EC3026B00F96D28 /* YLSandboxCell.h */,
+				45F9C4061EC3026B00F96D28 /* YLSandboxCell.m */,
 				45C9AC281EB1CF66009638F3 /* YLSandboxPreViewController.h */,
 				45C9AC291EB1CF66009638F3 /* YLSandboxPreViewController.m */,
+				45E0C3F41EC17187003DE11D /* YLLogWebViewController.h */,
+				45E0C3F51EC17187003DE11D /* YLLogWebViewController.m */,
+				45E0C3F71EC174BB003DE11D /* UIWebView+SearchWebView.h */,
+				45E0C3F81EC174BB003DE11D /* UIWebView+SearchWebView.m */,
+				45E0C3FA1EC1754C003DE11D /* SearchWebView.js */,
 			);
 			path = YLDebug;
 			sourceTree = "<group>";
@@ -288,6 +311,7 @@
 				45C9AC2C1EB1F316009638F3 /* log.gif in Resources */,
 				457B0BF81EA8AE3E00C92336 /* Assets.xcassets in Resources */,
 				457B0BF61EA8AE3D00C92336 /* Main.storyboard in Resources */,
+				45E0C3FB1EC1754C003DE11D /* SearchWebView.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,14 +336,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45F9C4071EC3026B00F96D28 /* YLSandboxCell.m in Sources */,
 				45C9AC271EB1CE83009638F3 /* YLSandboxObject.m in Sources */,
 				457B0BF31EA8AE3D00C92336 /* ViewController.m in Sources */,
 				457B0BF01EA8AE3C00C92336 /* AppDelegate.m in Sources */,
 				45C9AC261EB1CE83009638F3 /* YLLogTool.m in Sources */,
+				45F9C40A1EC31B8800F96D28 /* YLTestObject.m in Sources */,
 				45C9AC2A1EB1CF66009638F3 /* YLSandboxPreViewController.m in Sources */,
 				45C9AC251EB1CE83009638F3 /* YLLogListController.m in Sources */,
 				457B0BED1EA8AE3B00C92336 /* main.m in Sources */,
+				45E0C3F91EC174BB003DE11D /* UIWebView+SearchWebView.m in Sources */,
 				45C9AC241EB1CE83009638F3 /* YLDebugWindow.m in Sources */,
+				45E0C3F61EC17187003DE11D /* YLLogWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
